@@ -1,3 +1,3 @@
 export const Message = (props) => {
-    return <h1 class='massage'>{props.nam}</h1>
+    return <h1 className='massage'>{props.nam}</h1>
 }
