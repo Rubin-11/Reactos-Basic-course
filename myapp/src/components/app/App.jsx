@@ -1,14 +1,11 @@
-import React, {
-  useState,
-  useEffect,
-} from 'react';
-import './App.css';
-import { Message } from './components/Message.js';
+import React, { useState, useEffect } from 'react';
+import './css/App.css';
+import { Message } from '../message';
 
 export function App(props) {
   const [messageList, setMessageList] = useState([
-    { author: "Igor", value: "Hi" },
-    { author: "Alex", value: "Hi frend"}
+    { author: "Игорь", value: "Привет" },
+    { author: "Алексей", value: "Привет друг!!!"}
   ]);
   const [inputValue, setInputValue] = useState("");
   
@@ -18,14 +15,14 @@ export function App(props) {
 
     if(lastMessege?.author === props.name) {
       timetId = setTimeout(() => {
-        setMessageList(state => [...state, {author: `Bot`, value: `Привет`}]);
+        setMessageList(state => [...state, {author: `Бот`, value: `Привет`}]);
       }, 1500);
     }
 
     return () => clearInterval(timetId);
   },[messageList, props.name]);
 
-  const cd = () => {
+  const sendMessage = () => {
     if(inputValue) {
       setMessageList(state => [...state, { author: `${props.name}`, value: `${inputValue}`}]);
       setInputValue('');
@@ -37,10 +34,10 @@ export function App(props) {
         <header className="App-header">
           <div className="chatContainer">{messageList.map((message) => <p>{`${message.author}: ${message.value}`}</p>)}</div>
           <div>
-            <input placeholder="input" value={inputValue} onChange={(e) => setInputValue(e.target.value)}/>
-            <button onClick={cd}>send</button>
+            <input placeholder="Введите сообщение" value={inputValue} onChange={(e) => setInputValue(e.target.value)}/>
+            <button onClick={sendMessage}>Отправить</button>
           </div>
-          <Message nam={props.name}></Message>
+          <Message nam={props.name}/>
         </header>
     </div>
   );
