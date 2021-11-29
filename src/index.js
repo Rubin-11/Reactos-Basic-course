@@ -5,8 +5,9 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import React from "react";
 import { ChatPage } from "./pages";
 import { HomePage } from "./pages";
+import { ProfilePage } from "./pages/ProfilePage";
 import "./global.css";
-import {profileReducer} from "./store"
+import { store } from "./store";
 
 const light = createTheme({
   theme: {
@@ -15,12 +16,16 @@ const light = createTheme({
 });
 
 ReactDOM.render(
-  <Provider store={profileReducer}>
+  <Provider store={store}>
     <BrowserRouter>
       <ThemeProvider theme={light}>
         <Switch>
           <Route path="/chat">
             <ChatPage />
+          </Route>
+
+          <Route path="/profile">
+            <ProfilePage />
           </Route>
 
           <Route path="/">

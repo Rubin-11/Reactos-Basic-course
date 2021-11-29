@@ -1,8 +1,8 @@
-import {EXAMPLE_ACTION} from "./types";
+import { EXAMPLE_ACTION } from "./types";
 
 const initialState = {
   showName: false,
-  name: "Default",
+  name: "Сергей",
 };
 
 export const profileReducer = (state = initialState, action) => {
@@ -16,3 +16,5 @@ export const profileReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+

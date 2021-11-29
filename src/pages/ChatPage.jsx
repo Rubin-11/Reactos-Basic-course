@@ -32,7 +32,10 @@ export function ChatPage() {
           {([state, actions]) => (
             <MainTemplate
               header={
-                <Header createConversation={actions.createConversation} id={actions.id} />
+                <Header
+                  createConversation={actions.createConversation}
+                  id={actions.id}
+                />
               }
               chats={<ChatList {...state} />}
             >

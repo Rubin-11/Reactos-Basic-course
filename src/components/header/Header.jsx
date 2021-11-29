@@ -6,7 +6,7 @@ import styles from "./header.module.css";
 export const Header = ({ createConversation }) => {
   return (
     <div className={styles.header}>
-      <Link className={styles.headerProf} to="/">
+      <Link className={styles.headerProf} to="/profile">
         <ListItemIcon>
           <AccountCircle fontSize="large" className={styles.icon} />
         </ListItemIcon>
@@ -18,6 +18,9 @@ export const Header = ({ createConversation }) => {
         </ListItemIcon>
         <ListItemText className={styles.text} primary="Новый чат" />
       </button>
+      <Link className={styles.headerProf} to="/">
+        <ListItemText className={styles.text} primary="Домашная страница" />
+      </Link>
     </div>
   );
 };
