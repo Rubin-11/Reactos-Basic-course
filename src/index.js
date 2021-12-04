@@ -3,11 +3,10 @@ import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 import { Provider } from "react-redux";
 import { ThemeProvider, createTheme } from "@mui/material";
 import React from "react";
-import { ChatPage } from "./pages";
-import { HomePage } from "./pages";
-import { ProfilePage } from "./pages/ProfilePage";
+import { ChatPage, HomePage, ProfilePage } from "./pages";
 import "./global.css";
 import { store } from "./store";
+import { CHAT, PROFILE, HOME, ERROR } from "./constants";
 
 const light = createTheme({
   theme: {
@@ -20,21 +19,21 @@ ReactDOM.render(
     <BrowserRouter>
       <ThemeProvider theme={light}>
         <Switch>
-          <Route path="/chat">
+          <Route path={CHAT}>
             <ChatPage />
           </Route>
 
-          <Route path="/profile">
+          <Route path={PROFILE}>
             <ProfilePage />
           </Route>
 
-          <Route path="/">
+          <Route path={HOME}>
             <HomePage />
           </Route>
 
-          <Route path="*">
-            <h1>404 Ошибка!</h1>
-            <Link to="/chat">Перейти в чат</Link>
+          <Route path={ERROR}>
+            <h1>404 page</h1>
+            <Link to={CHAT}>go to Chat</Link>
           </Route>
         </Switch>
       </ThemeProvider>

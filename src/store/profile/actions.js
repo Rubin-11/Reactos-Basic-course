@@ -1,5 +1,5 @@
-import {EXAMPLE_ACTION} from "./types";
+import { SHOW_PROFILE } from "./types";
 
-export const exampleAction = {
-  type: EXAMPLE_ACTION
-  }
+export const toggleShowProfile = () => ({
+  type: SHOW_PROFILE,
+});

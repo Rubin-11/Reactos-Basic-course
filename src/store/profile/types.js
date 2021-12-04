@@ -1,1 +1,1 @@
-export const EXAMPLE_ACTION = "EXAMPLE_ACTION";
+export const SHOW_PROFILE = "@profile/show profile";

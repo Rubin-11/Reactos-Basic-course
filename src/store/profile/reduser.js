@@ -1,20 +1,20 @@
-import { EXAMPLE_ACTION } from "./types";
+import { SHOW_PROFILE } from "./types";
 
 const initialState = {
-  showName: false,
-  name: "Сергей",
+  firstName: "Сергей",
+  lastName: "Мишарин",
+  age: 33,
+  isVisibleProfile: true,
 };
 
 export const profileReducer = (state = initialState, action) => {
   switch (action.type) {
-    case EXAMPLE_ACTION:
+    case SHOW_PROFILE:
       return {
         ...state,
-        showName: !state.showName,
+        isVisibleProfile: !state.isVisibleProfile,
       };
     default:
       return state;
   }
 };
-
-

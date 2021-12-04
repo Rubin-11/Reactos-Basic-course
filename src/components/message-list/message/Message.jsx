@@ -1,32 +1,18 @@
-import { memo } from "react";
-import PropTypes from "prop-types";
 import classNames from "classnames";
+import { withCounter } from "../../../hocs/WithCounter";
 import styles from "./message.module.css";
 
-export const Message = memo(({ message }) => {
-  const { author, value } = message;
-
+export const Message = withCounter(({ message }) => {
   return (
     <div
       className={classNames(styles.message, {
-        [styles.currentMessage]: author === "User",
+        [styles.currentMessage]: message.author === "User",
       })}
     >
-      <h3>{value}</h3>
-      <p>{author}</p>
+      <h3>{message.message}</h3>
+      <p>{message.author}</p>
       <p>12.03</p>
+      <hr />
     </div>
   );
 });
-
-Message.propTypes = {
-  message: PropTypes.shape({
-    author: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-  }).isRequired,
-  test: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-    })
-  ),
-};

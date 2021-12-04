@@ -1,39 +1,44 @@
-import { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleShowProfile, profileSelector } from "../store/profile";
+import { ListItemIcon } from "@mui/material";
+import { AccountCircle, HighlightOff } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { Checkbox, Box, ListItemText } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
-import { exampleAction } from "../store/profile";
-import styles from "./header.module.css";
+import "./profile.css";
+import { CHAT } from "../constants";
 
-export function ProfilePage() {
-  const { showName, name } = useSelector((state) => state);
+export function ProfilePage(props) {
+  const { firstName, lastName, age, isVisibleProfile } =
+    useSelector(profileSelector);
+
   const dispatch = useDispatch();
-  const setShowName = useCallback(() => {
-    dispatch(exampleAction);
-  }, [dispatch]);
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        height: "100vh",
-        backgroundColor: "#162b3b",
-      }}
-    >
-      <Avatar src="/broken-image.jpg" />
-      <h4>Профиль</h4>
-      <Checkbox
-        checked={showName}
-        onChange={setShowName}
-        value={showName}
-        inputProps={{ "aria-label": "controlled" }}
-      />
-      <span>Показать имя</span>
-      {showName && <div>{name}</div>}
-      <Link className={styles.headerProf} to="/">
-        <ListItemText className={styles.text} primary="Домашная страница" />
-      </Link>
-    </Box>
+    <div className={"profile-box"}>
+      <div className={"App"}>
+        <Link className={"close-prof"} to={CHAT}>
+          <ListItemIcon>
+            <HighlightOff className={"icon"} />
+          </ListItemIcon>
+        </Link>
+        <ListItemIcon>
+          <AccountCircle fontSize="large" className={"icon"} />
+        </ListItemIcon>
+        <br />
+        <button
+          className={"but-prof"}
+          onClick={() => dispatch(toggleShowProfile())}
+        >
+          Профиль
+        </button>
+
+        {isVisibleProfile && (
+          <>
+            <h1 className={"prof-text"}>Имя: {firstName}</h1>
+            <h1 className={"prof-text"}>Фамилия: {lastName}</h1>
+            <h1 className={"prof-text"}>Возраст: {age}</h1>
+          </>
+        )}
+      </div>
+    </div>
   );
 }

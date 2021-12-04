@@ -1,7 +1,9 @@
-import { ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import { Button, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { makeStyles } from "@mui/styles";
+import { removeConversationById } from "../../../store/conversations";
 import styles from "./chat.module.css";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -18,6 +20,7 @@ const useStyles = makeStyles((theme) => {
 
 export function Chat({ title, selected, handleListItemClick }) {
   const s = useStyles();
+  const dispatch = useDispatch();
 
   return (
     <ListItem
@@ -33,6 +36,7 @@ export function Chat({ title, selected, handleListItemClick }) {
         <ListItemText className={styles.text} primary={title} />
         <ListItemText className={styles.text} primary="12.30" />
       </div>
+      <Button style={{backgroundColor: "#200772"}} onClick={() => dispatch(removeConversationById(title))}>+</Button>
     </ListItem>
   );
 }
