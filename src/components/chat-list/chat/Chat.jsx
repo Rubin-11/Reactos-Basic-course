@@ -1,6 +1,7 @@
 import { Button, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { makeStyles } from "@mui/styles";
+import { format } from "date-fns";
 import { removeConversationById } from "../../../store/conversations";
 import styles from "./chat.module.css";
 import { useDispatch } from "react-redux";
@@ -34,7 +35,7 @@ export function Chat({ title, selected, handleListItemClick }) {
       </ListItemIcon>
       <div className={styles.description}>
         <ListItemText className={styles.text} primary={title} />
-        <ListItemText className={styles.text} primary="12.30" />
+        <ListItemText className={styles.text} primary={format(new Date(), "yyyy-MM-dd")} />
       </div>
       <Button style={{backgroundColor: "#200772"}} onClick={() => dispatch(removeConversationById(title))}>+</Button>
     </ListItem>

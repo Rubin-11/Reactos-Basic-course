@@ -1,9 +1,5 @@
-import {
-  HANDLE_CHANGE_MESSAGE_VALUE,
-  CREATE_CONVERSATION,
-  CLEAR_MESSAGE_VALUE,
-} from "./types";
 import { REMOVE_CONVERSATION } from "../types";
+import { HANDLE_CHANGE_MESSAGE_VALUE, CREATE_CONVERSATION } from "./types";
 
 const initialState = {
   conversations: [
@@ -29,27 +25,21 @@ export const conversationsReducer = (state = initialState, action) => {
             : conversation;
         }),
       };
-    case CREATE_CONVERSATION:
-      console.log(CREATE_CONVERSATION);
-      return {
-        ...state,
-        conversations: [
-          ...state.conversations,
-          { title: action.payload, value: "" },
-        ],
-      };
-    case CLEAR_MESSAGE_VALUE:
-      // console.log(CLEAR_MESSAGE_VALUE);
-      return {
-        ...state,
-        conversations: updateConversations(state, action.payload, ""),
-      };
     case REMOVE_CONVERSATION:
       return {
         ...state,
         conversations: state.conversations.filter(
           (conversation) => conversation.title !== action.payload
         ),
+      };
+
+    case CREATE_CONVERSATION:
+      return {
+        ...state,
+        conversations: [
+          ...state.conversations,
+          { title: action.payload, value: "" },
+        ],
       };
     default:
       return state;

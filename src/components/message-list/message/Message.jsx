@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { withCounter } from "../../../hocs/WithCounter";
 import styles from "./message.module.css";
+import { format } from "date-fns";
 
 export const Message = withCounter(({ message }) => {
   return (
@@ -11,7 +12,7 @@ export const Message = withCounter(({ message }) => {
     >
       <h3>{message.message}</h3>
       <p>{message.author}</p>
-      <p>12.03</p>
+      <p>{format(new Date(), "yyyy-MM-dd")}</p>
       <hr />
     </div>
   );
