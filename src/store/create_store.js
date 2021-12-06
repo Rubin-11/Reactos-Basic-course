@@ -1,5 +1,4 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
-// import { createStore } from "./my-redux";
 import thunk from "redux-thunk";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -11,12 +10,13 @@ import {
   botSendMessage,
   timeScheduler,
   crashReporter,
-  // thunk
+   // thunk
 } from "./middlewares";
 
 const persistConfig = {
   key: "root",
   storage,
+  // blacklist: ["messages"],
   whitelist: ["profile"],
 };
 

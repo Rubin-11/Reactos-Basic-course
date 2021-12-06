@@ -16,6 +16,7 @@ const initialState = {
 export const messagesReducer = (state = initialState, action) => {
   switch (action.type) {
     case SEND_MESSAGE:
+      console.log("++++++++");
       return {
         ...state,
         messages: {
@@ -28,6 +29,7 @@ export const messagesReducer = (state = initialState, action) => {
       };
 
     case DELETE_MESSAGE_BY_ID:
+      console.log("+++++++");
       return {
         ...state,
         messages: {
@@ -39,6 +41,7 @@ export const messagesReducer = (state = initialState, action) => {
       };
 
     case REMOVE_CONVERSATION:
+      // console.log("+++++++");
       return {
         ...state,
         messages: Object.entries(state.messages).reduce((acc, [key, value]) => {

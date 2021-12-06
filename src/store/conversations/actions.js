@@ -3,16 +3,16 @@ import {
   CREATE_CONVERSATION,
   CLEAR_MESSAGE_VALUE,
 } from "./types";
-import {REMOVE_CONVERSATION} from "../types";
+import { REMOVE_CONVERSATION } from "../types";
 
 export const handleChangeMessageValue = (value, roomId) => ({
   type: HANDLE_CHANGE_MESSAGE_VALUE,
   payload: { value, roomId },
 });
 
-export const createConversation = (name) => ({
+export const createConversation = (conversation) => ({
   type: CREATE_CONVERSATION,
-  payload: name,
+  payload: conversation,
 });
 
 export const clearMessageValue = (roomId) => ({

@@ -7,6 +7,7 @@ import {
   createConversation,
 } from "../../store/conversations";
 import { useSelector, useDispatch } from "react-redux";
+import styles from "./chat.module.css";
 
 export const ChatList = () => {
   const params = useParams();

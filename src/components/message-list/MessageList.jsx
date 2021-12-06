@@ -1,80 +1,60 @@
-import React, {
-  useEffect,
-  useRef,
-  useCallback,
-  useMemo,
-} from "react";
+import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Input, InputAdornment } from "@mui/material";
 import { Send } from "@mui/icons-material";
-import { sendMessageWithBot , messageSelector } from "../../store/messages";
+import { sendMessageWithBot, messageSelector } from "../../store/messages";
+import {
+  messageValueSelector,
+  handleChangeMessageValue,
+} from "../../store/conversations";
 import { Message } from "./message";
 import { useStyles } from "./use-styles";
 
 export const MessageList = () => {
   const s = useStyles();
-  const dispatch = useDispatch();
   const { roomId } = useParams();
 
-  const messageSelectorByMemo = useMemo(
-    () => messageSelector(roomId),
-    [roomId]
-  );
+  const messageValue = useMemo(() => messageValueSelector(roomId), [roomId]);
 
-  const messageValueSelectorByMemo = useMemo(
-    () => messageValueSelector(roomId),
-    [roomId]
-  );
+  const dispatch = useDispatch();
+  const value = useSelector(messageValue);
 
-  const messages = useSelector(messageSelectorByMemo);
-  const value = useSelector(messageValueSelectorByMemo);
+  const messages = useSelector(messageSelector(roomId));
 
-  const ref = useRef(null);
-
-  const send = useCallback(
-    (message, author = "User") => {
-      if (message) {
-        dispatch(sendMessageWithBot({ author, message }, roomId));
-      }
-    },
-    [dispatch, roomId]
-  );
-
-  const handlePressInput = ({ code }) => {
-    if (code === "Enter") {
-      send(value);
+  const handleSendMessage = () => {
+    if (value) {
+      dispatch(sendMessageWithBot({ author: "User", value }, roomId));
     }
   };
 
-  const handleScrollBottom = useCallback(() => {
-    if (ref.current) {
-      ref.current.scrollTo(0, ref.current.scrollHeight);
+  const handlePressInput = ({ code }) => {
+    if (code === "Enter") {
+      handleSendMessage();
     }
-  }, []);
-
-  useEffect(() => {
-    handleScrollBottom();
-  }, [handleScrollBottom, messages]);
+  };
 
   return (
     <>
-      <div ref={ref}>
-        {messages.map((message, index) => (
-          <Message key={index} message={message} />
+      <div>
+        {messages.map((message, id) => (
+          <Message key={message.value} message={message} />
         ))}
       </div>
 
       <Input
+        autoFocus
         className={s.input}
         fullWidth
         placeholder="Введите сообщение..."
         value={value}
-        onChange={(e) => dispatch(handleChangeMessageValue(e.target.value, roomId))}
+        onChange={(e) =>
+          dispatch(handleChangeMessageValue(e.target.value, roomId))
+        }
         onKeyPress={handlePressInput}
         endAdornment={
           <InputAdornment position="end">
-            {value && <Send onClick={() => send(value)} className={s.icon} />}
+            {value && <Send onClick={handleSendMessage} />}
           </InputAdornment>
         }
       />
