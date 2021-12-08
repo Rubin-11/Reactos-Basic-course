@@ -1,4 +1,4 @@
-import { SEND_MESSAGE, DELETE_MESSAGE_BY_ID } from "./types";
+import { SEND_MESSAGE, DELETE_MESSAGE_BY_ID } from "./constants";
 
 export const sendMessage = (message, roomId) => ({
   type: SEND_MESSAGE,

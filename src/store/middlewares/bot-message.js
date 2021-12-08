@@ -1,4 +1,4 @@
-import { SEND_MESSAGE } from "../messages/types";
+import { SEND_MESSAGE } from "../messages/constants";
 import { sendMessage } from "../messages";
 
 export const botSendMessage = (store) => (next) => (action) => {

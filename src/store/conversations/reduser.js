@@ -1,5 +1,5 @@
-import { REMOVE_CONVERSATION } from "../types";
-import { HANDLE_CHANGE_MESSAGE_VALUE, CREATE_CONVERSATION, CLEAR_MESSAGE_VALUE } from "./types";
+import { REMOVE_CONVERSATION } from "../constants";
+import { HANDLE_CHANGE_MESSAGE_VALUE, CREATE_CONVERSATION, CLEAR_MESSAGE_VALUE } from "./constants";
 
 const initialState = {
   conversations: [

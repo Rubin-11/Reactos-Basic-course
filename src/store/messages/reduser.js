@@ -1,5 +1,5 @@
-import { REMOVE_CONVERSATION } from "../types";
-import { SEND_MESSAGE, DELETE_MESSAGE_BY_ID } from "./types";
+import { REMOVE_CONVERSATION } from "../constants";
+import { SEND_MESSAGE, DELETE_MESSAGE_BY_ID } from "./constants";
 
 const initialState = {
   messages: {
