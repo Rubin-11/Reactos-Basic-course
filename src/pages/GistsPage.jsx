@@ -1,4 +1,3 @@
-import { Button, Input } from "@mui/material";
 import debounce from "lodash.debounce";
 import { useMemo } from "react";
 import { useState } from "react";
@@ -11,6 +10,7 @@ import {
   gistsByNameSelector,
   getGistsByName,
 } from "../store/gists";
+import "./gist.css";
 
 export function GistsPage() {
   const [search, setSearch] = useState("");
@@ -37,46 +37,47 @@ export function GistsPage() {
   }, [searchDebounced, search]);
 
   if (gistPending) {
-    return <h1>Pending ...</h1>;
+    return <h1 className={"gist-padge"}>Loading ...</h1>;
   }
   if (gistError) {
-    return <h1>Error</h1>;
+    return <h1 className={"gist-padge"}>Error</h1>;
   }
 
   if (gistByNamePending) {
-    return <h1>Pending gistByNamePending...</h1>;
+    return <h1 className={"gist-padge"}>Loading gistByNamePending...</h1>;
   }
   if (gistByNameError) {
     return (
-      <div>
+      <div className={"gist-padge"}>
+        <h1>ERROR 404</h1>
         <h1>Error gistByNameError</h1>
-        <hr />
+        <h1>Search</h1>
       </div>
     );
   }
 
   return (
-    <div>
-      <h1>Gists</h1>
+    <div className={"gist-padge"}>
+      <h1 className={"gist-btn"}>Gists</h1>
       {gists?.map((gist) => (
         <h2 key={gist.url}>{gist.url}</h2>
       ))}
 
-      <Button variant="contained" onClick={() => dispatch(getGists(1))}>
+      <button className={"gist-btn"} onClick={() => dispatch(getGists(1))}>
         1
-      </Button>
-      <Button variant="contained" onClick={() => dispatch(getGists(2))}>
+      </button>
+      <button className={"gist-btn"} onClick={() => dispatch(getGists(2))}>
         2
-      </Button>
-      <Button variant="contained" onClick={() => dispatch(getGists(3))}>
+      </button>
+      <button className={"gist-btn"} onClick={() => dispatch(getGists(3))}>
         3
-      </Button>
+      </button>
 
       <hr />
+
       <h1>Search</h1>
-      <Input
-        autoFocus
-        fullWidth
+      <input
+        className={"gist-btn"}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
