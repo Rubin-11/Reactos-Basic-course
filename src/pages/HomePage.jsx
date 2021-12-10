@@ -1,3 +1,4 @@
+import React from "react";
 import { Route, Switch, Link } from "react-router-dom";
 import "./home.css";
 import { CHAT, HOME } from "../constants";

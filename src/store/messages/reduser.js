@@ -1,22 +1,23 @@
 import { REMOVE_CONVERSATION } from "../constants";
-import { SEND_MESSAGE, DELETE_MESSAGE_BY_ID } from "./constants";
+import {
+  SEND_MESSAGE,
+  DELETE_MESSAGE_BY_ID,
+  GET_MESSAGES_START,
+  GET_MESSAGES_ERROR,
+  GET_MESSAGES_SUCESS,
+} from "./constants";
 
 const initialState = {
-  messages: {
-    room1: [
-      {
-        id: new Date().toISOString(),
-        author: "Bot",
-        message: "Hello from bot to room 1",
-      },
-    ],
-  },
+  messages: {},
+  chatsError: false,
+  chatsSuccess: false,
+  
 };
 
 export const messagesReducer = (state = initialState, action) => {
+  
   switch (action.type) {
     case SEND_MESSAGE:
-      console.log("++++++++");
       return {
         ...state,
         messages: {
@@ -29,7 +30,6 @@ export const messagesReducer = (state = initialState, action) => {
       };
 
     case DELETE_MESSAGE_BY_ID:
-      console.log("+++++++");
       return {
         ...state,
         messages: {
@@ -41,19 +41,34 @@ export const messagesReducer = (state = initialState, action) => {
       };
 
     case REMOVE_CONVERSATION:
-      // console.log("+++++++");
       return {
         ...state,
         messages: Object.entries(state.messages).reduce((acc, [key, value]) => {
           if (key === action.payload) {
             return acc;
           }
-
           acc[key] = value;
-
           return acc;
         }, {}),
       };
+
+      case GET_MESSAGES_START:
+        return {
+          ...state,
+          messagesLoading: true,
+        };
+      case GET_MESSAGES_SUCESS:
+        return {
+          ...state,
+          messagesLoading: false,
+          messages: action.payload,
+        };
+      case GET_MESSAGES_ERROR:
+        return {
+          ...state,
+          messagesLoading: false,
+          messagesError: action.payload,
+        };
 
     default:
       return state;

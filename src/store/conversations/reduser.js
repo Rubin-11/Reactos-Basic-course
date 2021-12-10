@@ -1,17 +1,17 @@
 import { REMOVE_CONVERSATION } from "../constants";
-import { HANDLE_CHANGE_MESSAGE_VALUE, CREATE_CONVERSATION, CLEAR_MESSAGE_VALUE } from "./constants";
+import {
+  HANDLE_CHANGE_MESSAGE_VALUE,
+  CREATE_CONVERSATION,
+  CLEAR_MESSAGE_VALUE,
+  GET_CONVERSATIONS,
+  GET_CONVERSATIONS_SUCCESS,
+  GET_CONVERSATIONS_ERROR,
+} from "./constants";
 
 const initialState = {
-  conversations: [
-    {
-      title: "room1",
-      value: "",
-    },
-    {
-      title: "room2",
-      value: "",
-    },
-  ],
+  conversations: [],
+  conversationsLoading: false,
+  conversationsError: null,
 };
 
 const updateConversations = (state, roomId, value) =>
@@ -50,10 +50,26 @@ export const conversationsReducer = (state = initialState, action) => {
           { title: action.payload, value: "" },
         ],
       };
-      case CLEAR_MESSAGE_VALUE:
+    case CLEAR_MESSAGE_VALUE:
       return {
         ...state,
         conversations: updateConversations(state, action.payload, ""),
+      };
+    case GET_CONVERSATIONS:
+      return { ...state, conversationsLoading: true, };
+
+    case GET_CONVERSATIONS_SUCCESS:
+      return {
+        ...state,
+        conversationsLoading: false,
+        conversations: action.payload,
+      };
+
+    case GET_CONVERSATIONS_ERROR:
+      return {
+        ...state,
+        conversationsLoading: false,
+        conversationsError: action.payload,
       };
     default:
       return state;

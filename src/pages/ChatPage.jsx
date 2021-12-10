@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { MessageList, MainTemplate, ChatList } from "../components";
-import { CHAT } from "../constants";
 
 export function ChatPage() {
   const { push } = useHistory();
@@ -22,12 +21,12 @@ export function ChatPage() {
 
   return (
     <Switch>
-      <Route path={["/chat/:roomId", {CHAT}]}>
+      <Route path={["/chat/:roomId", "/chat"]}>
         <MainTemplate chats={<ChatList />}>
           <Route path="/chat/:roomId">
             <MessageList />
           </Route>
-          <Route exact={true} path={CHAT}>
+          <Route exact={true} path="/chat">
             <h1>Выберите диалог</h1>
           </Route>
         </MainTemplate>

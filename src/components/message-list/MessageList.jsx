@@ -3,16 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Input, InputAdornment } from "@mui/material";
 import { Send } from "@mui/icons-material";
-import { sendMessageWithBot, messageSelector } from "../../store/messages";
+import { messageSelector } from "../../store/messages";
+import { sessionSelector } from "../../store/session";
 import {
   messageValueSelector,
   handleChangeMessageValue,
 } from "../../store/conversations";
 import { Message } from "./message";
 import { useStyles } from "./use-styles";
+import { senMessageApi } from "../../api/messages";
 
 export const MessageList = () => {
   const s = useStyles();
+  const session = useSelector(sessionSelector);
   const { roomId } = useParams();
 
   const messageValue = useMemo(() => messageValueSelector(roomId), [roomId]);
@@ -24,7 +27,7 @@ export const MessageList = () => {
 
   const handleSendMessage = () => {
     if (value) {
-      dispatch(sendMessageWithBot({ author: "User", value }, roomId));
+      dispatch(senMessageApi({ author: session.email, value }, roomId));
     }
   };
 
