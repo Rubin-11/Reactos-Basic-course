@@ -3,8 +3,9 @@ import { db } from "./firebase";
 
 export const getMessagesApi = () => db.ref("messages").get();
 
-export const senMessageApi = (message, roomId) =>
-  db
+export const sendMessageApi = (roomId, message) => {
+  return db
     .ref("messages")
     .child(roomId)
-    .push({ ...message, id: nanoid() });
+    .push({ id: nanoid(), ...message });
+};

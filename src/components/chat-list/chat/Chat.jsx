@@ -1,13 +1,13 @@
-import { Button, ListItem, ListItemIcon, ListItemText } from "@mui/material";
-import { AccountCircle } from "@mui/icons-material";
+import { ListItem, ListItemIcon, ListItemText, Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-// import { format } from "date-fns";
-import { removeConversationById } from "../../../store/conversations";
+import { useNavigate } from "react-router-dom";
+import { AccountCircle } from "@mui/icons-material";
+import { deleteConversation } from "../../../store/conversations";
 import { lastMessageSelector } from "../../../store/messages";
 import styles from "./chat.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles(() => {
   return {
     item: {
       "&.Mui-selected": {
@@ -20,10 +20,15 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-export function Chat({ title, selected, handleListItemClick }) {
+export function Chat({ title, selected, handleListItemClick, dispatch }) {
   const s = useStyles();
-  const dispatch = useDispatch();
-  const lastMessage = useSelector(lastMessageSelector(title));
+  const navigate = useNavigate();
+  const message = useSelector(lastMessageSelector(title));
+
+  const deleteRoom = (e) => {
+    dispatch(deleteConversation(title));
+    setTimeout(() => navigate("/chat"), 100);
+  };
 
   return (
     <ListItem
@@ -31,28 +36,17 @@ export function Chat({ title, selected, handleListItemClick }) {
       button={true}
       selected={selected}
       onClick={handleListItemClick}
+      data-testid="wrapper"
     >
       <ListItemIcon>
+        <Button variant="contained" onClick={deleteRoom}>X</Button>
         <AccountCircle fontSize="large" className={styles.icon} />
       </ListItemIcon>
       <div className={styles.description}>
         <ListItemText className={styles.text} primary={title} />
-        {lastMessage && (
-          <>
-            <ListItemText
-              className={styles.text}
-              primary={`${lastMessage.author}: ${lastMessage.value}`}
-            />
-            {/* <ListItemText className={styles.text} primary={format(new Date(), "yyyy-MM-dd")} /> */}
-          </>
-        )}
+        <ListItemText className={styles.text} primary={message?.message} />
+        <ListItemText className={styles.text} primary="12.30" />
       </div>
-      <Button
-        style={{ backgroundColor: "#200772" }}
-        onClick={() => dispatch(removeConversationById(title))}
-      >
-        +
-      </Button>
     </ListItem>
   );
 }

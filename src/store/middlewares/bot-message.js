@@ -9,14 +9,11 @@ export const botSendMessage = (store) => (next) => (action) => {
     setTimeout(() => {
       store.dispatch(
         sendMessage(
-          {
-            author: "Bot",
-            value: "Hello from bot middleware",
-          },
+          { author: "Bot", message: "Hello from bot" },
           action.payload.roomId
         )
       );
-    }, 500);
+    }, 300);
   }
 
   return next(action);

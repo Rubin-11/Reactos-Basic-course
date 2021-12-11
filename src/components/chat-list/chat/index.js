@@ -1,2 +1,1 @@
-import { Chat } from "./Chat";
-export { Chat };
+export * from "./Chat";

@@ -1,22 +1,22 @@
 import {
   getConversationsStart,
-  getConversationsSecess,
+  getConversationsSuccess,
   getConversationsError,
 } from "./actions";
 
 export const getConversationsFB = () => async (dispatch, _, api) => {
+  const conversations = [];
   try {
     dispatch(getConversationsStart());
-    const data = await api.getConversationsApi();
 
-    const conversations = [];
+    const snapshot = await api.getConversationsApi();
 
-    data.forEach((snap) => {
+    snapshot.forEach((snap) => {
       conversations.push(snap.val());
     });
 
-    dispatch(getConversationsSecess(conversations));
-  } catch {
-    dispatch(getConversationsError("Ошибка при получении чата"));
+    dispatch(getConversationsSuccess(conversations));
+  } catch (e) {
+    dispatch(getConversationsError(e));
   }
 };

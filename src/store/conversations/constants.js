@@ -1,13 +1,9 @@
+export const CREATE_CONVERSATION = "@conversations/create conversation";
+export const DELETE_CONVERSATION = "@conversations/delete conversation";
 export const HANDLE_CHANGE_MESSAGE_VALUE =
-  "@convesations/handle change message value";
+  "@conversations/handle change message value";
 
-export const CREATE_CONVERSATION = "@convesations/create conversation";
-
-export const CLEAR_MESSAGE_VALUE = "@conversations/clear message value";
-
-export const GET_CONVERSATIONS = "@conversations/get conversations";
-
-export const GET_CONVERSATIONS_SUCCESS =
-  "@conversations/get conversations success";
-
-export const GET_CONVERSATIONS_ERROR = "@conversations/get conversations error";
+export const GET_CONVERSATIONS_START = "@conversations/GET_CONVERSATIONS_START";
+export const GET_CONVERSATIONS_SUCCESSS =
+  "@conversations/GET_CONVERSATIONS_SUCCESSS";
+export const GET_CONVERSATIONS_ERROR = "@conversations/GET_CONVERSATIONS_ERROR";

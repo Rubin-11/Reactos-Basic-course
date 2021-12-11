@@ -1,91 +1,89 @@
-import ReactDOM from "react-dom";
-import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { PersistGate } from "redux-persist/integration/react";
-import { Provider, useSelector, useDispatch } from "react-redux";
-import { ThemeProvider, createTheme } from "@mui/material";
-import React, { useEffect } from "react";
-import {
-  ChatPage,
-  HomePage,
-  ProfilePage,
-  LoginPage,
-  SignUpPage,
-} from "./pages";
-import { GistsPage } from "./pages";
-import "./global.css";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Header, PublicRoute, PrivateRoute } from "./components";
+import { ChatPage, ProfilePage, Gists, LoginPage, SignUpPage } from "./pages";
+import { CustomThemeProvider } from "./theme-context";
 import { store, persistor } from "./store";
-import { CHAT, PROFILE, HOME, ERROR, GISTS, LOGIN, SIGN_UP } from "./constants";
-import { Header, PrivateRoute, PublicRoute } from "./components";
-import { sessionSelector, onAuthStateChanged } from "./store/session";
-import { getMessagesFB } from "./store/messages";
-import { getConversationsFB } from "./store/conversations";
-
-const light = createTheme({
-  theme: {
-    color: "red",
-  },
-});
+import { firebaseApp } from "./api/firebase";
+import "./palette.css";
+import "./global.css";
+import { PROFILE, GISTS, LOGIN, SIGN_UP, HOME } from "./constant";
 
 const App = () => {
-  const session = useSelector(sessionSelector);
-  const dispatch = useDispatch();
+  const [session, setSession] = useState(null);
 
   useEffect(() => {
-    dispatch(onAuthStateChanged());
-  }, [dispatch]);
-  useEffect(() => {
-    dispatch(getMessagesFB());
-  }, [dispatch]);
-  useEffect(() => {
-    dispatch(getConversationsFB());
-  }, [dispatch]);
+  
+    firebaseApp.auth().onAuthStateChanged((user) => {
+      if (user) {
+        setSession(user);
+      } else {
+        setSession(null);
+      }
+    });
+  }, []);
 
-  const isAuth = !!session?.email;
+  const isAuth = session?.email;
 
   return (
-    <>
-      <Header session={session} />
-
-      <Switch>
-        <PrivateRoute path={CHAT} isAuth={isAuth}>
-          <ChatPage />
-        </PrivateRoute>
-        <PrivateRoute path={PROFILE} isAuth={isAuth}>
-          <ProfilePage />
-        </PrivateRoute>
-        <PrivateRoute path={GISTS} isAuth={isAuth}>
-          <GistsPage />
-        </PrivateRoute>
-
-        <PublicRoute path={LOGIN} isAuth={isAuth} to="/chat">
-          <LoginPage />
-        </PublicRoute>
-        <PublicRoute path={SIGN_UP} isAuth={isAuth} to="/chat">
-          <SignUpPage />
-        </PublicRoute>
-
-        <Route path={HOME}>
-          <HomePage />
-        </Route>
-
-        <Route path={ERROR}>
-          <h1>404 page</h1>
-          <Link to={CHAT}>go to Chat</Link>
-        </Route>
-      </Switch>
-    </>
+    <React.StrictMode>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <CustomThemeProvider>
+            <BrowserRouter>
+              <Header session={session} />
+              <Routes>
+                <Route path={HOME} element={<h1>Home Page</h1>} />
+                <Route
+                  path="/chat/*"
+                  element={
+                    <PrivateRoute isAuth={isAuth} to={LOGIN}>
+                      <ChatPage session={session} />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path={PROFILE}
+                  element={
+                    <PrivateRoute isAuth={isAuth}>
+                      <ProfilePage />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path={GISTS}
+                  element={
+                    <PrivateRoute isAuth={isAuth}>
+                      <Gists />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path={LOGIN}
+                  element={
+                    <PublicRoute isAuth={isAuth}>
+                      <LoginPage />
+                    </PublicRoute>
+                  }
+                />
+                <Route
+                  path={SIGN_UP}
+                  element={
+                    <PublicRoute isAuth={isAuth}>
+                      <SignUpPage />
+                    </PublicRoute>
+                  }
+                />
+              </Routes>
+            </BrowserRouter>
+          </CustomThemeProvider>
+        </PersistGate>
+      </Provider>
+    </React.StrictMode>
   );
 };
 
-ReactDOM.render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <BrowserRouter>
-        <ThemeProvider theme={light}>
-          <App />
-        </ThemeProvider>
-      </BrowserRouter>
-    </PersistGate>
-  </Provider>,
-  document.getElementById("root")
-);
+ReactDOM.render(<App />, document.getElementById("root"));

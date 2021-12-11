@@ -1,15 +1,19 @@
 import { makeStyles } from "@mui/styles";
 
-// jss
 export const useStyles = makeStyles((ctx) => {
   return {
+    wrapper: {
+      border: `1px solid ${ctx.palette.primary.main}`,
+      padding: "15px",
+    },
     input: {
-      color: ctx.palette.primary.main,
+      color: "#9a9fa1",
       padding: "10px 15px",
       fontSize: "15px",
     },
     icon: {
-      color: ctx.palette.primary.main,
+      color: "var(--main-color)",
+      cursor: "pointer",
     },
   };
 });

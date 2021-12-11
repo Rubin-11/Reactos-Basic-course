@@ -1,54 +1,81 @@
-import React, { useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import React, { useCallback, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { Input, InputAdornment } from "@mui/material";
 import { Send } from "@mui/icons-material";
-import { messageSelector } from "../../store/messages";
-import { sessionSelector } from "../../store/session";
+import { Message } from "./message";
+import { useStyles } from "./use-styles";
+import { messagesSelector, sendMessageFB } from "../../store/messages";
 import {
+  conversationsSelector,
   messageValueSelector,
   handleChangeMessageValue,
 } from "../../store/conversations";
-import { Message } from "./message";
-import { useStyles } from "./use-styles";
-import { senMessageApi } from "../../api/messages";
+import { useDispatch, useSelector } from "react-redux";
 
-export const MessageList = () => {
-  const s = useStyles();
-  const session = useSelector(sessionSelector);
+export const MessageList = ({ session }) => {
   const { roomId } = useParams();
-
-  const messageValue = useMemo(() => messageValueSelector(roomId), [roomId]);
+  const navigate = useNavigate();
+  const styles = useStyles();
+  const messages = useSelector(messagesSelector(roomId));
+  const conversations = useSelector(conversationsSelector);
+  const value = useSelector(messageValueSelector(roomId));
 
   const dispatch = useDispatch();
-  const value = useSelector(messageValue);
 
-  const messages = useSelector(messageSelector(roomId));
+  const ref = useRef(null);
+  const refWrapper = useRef(null);
 
-  const handleSendMessage = () => {
+  const send = useCallback(() => {
     if (value) {
-      dispatch(senMessageApi({ author: session.email, value }, roomId));
+      dispatch(
+        sendMessageFB({ author: session?.email, message: value }, roomId)
+      );
     }
-  };
+  }, [value, roomId, dispatch, session]);
+
+  useEffect(() => {
+    if (refWrapper.current) {
+      refWrapper.current.scrollTo(0, refWrapper.current.scrollHeight);
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    const isValidRoomId = conversations.find(
+      (conversation) => conversation.title === roomId
+    );
+
+    if (!isValidRoomId && roomId) {
+      navigate("/chat");
+    }
+  }, [roomId, conversations, navigate]);
+
+  useEffect(() => {
+    ref.current?.focus();
+  }, []);
 
   const handlePressInput = ({ code }) => {
     if (code === "Enter") {
-      handleSendMessage();
+      send();
     }
   };
 
   return (
     <>
-      <div>
-        {messages.map((message, id) => (
-          <Message key={message.value} message={message} />
+      <div ref={refWrapper}>
+        {messages.map((message, index) => (
+          <Message
+            message={message}
+            key={index}
+            dispatch={dispatch}
+            roomId={roomId}
+          />
         ))}
       </div>
 
       <Input
-        autoFocus
-        className={s.input}
         fullWidth
+        className={styles.input}
+        ref={ref}
         placeholder="Введите сообщение..."
         value={value}
         onChange={(e) =>
@@ -57,7 +84,7 @@ export const MessageList = () => {
         onKeyPress={handlePressInput}
         endAdornment={
           <InputAdornment position="end">
-            {value && <Send onClick={handleSendMessage} />}
+            <Send className={styles.icon} onClick={send} />
           </InputAdornment>
         }
       />

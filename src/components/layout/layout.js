@@ -1,6 +1,6 @@
 import styles from "./layout.module.css";
 
-export function Layout({ header, chats, messages }) {
+export function Layout({ chats, messages }) {
   return (
     <div className={styles.body}>
       <div className={styles.content}>

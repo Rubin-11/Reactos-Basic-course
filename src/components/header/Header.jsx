@@ -1,55 +1,50 @@
-import { Button, ListItemIcon, ListItemText } from "@mui/material";
-import { AccountCircle } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import styles from "./header.module.css";
+import { ListItemText, Button, ListItemIcon } from "@mui/material";
+import { AccountCircle } from "@mui/icons-material";
 import { firebaseApp } from "../../api/firebase";
-import { PROFILE, HOME, CHAT, GISTS, LOGIN, SIGN_UP } from "../../constants";
+import styles from "./header.module.css";
+import { PROFILE, CHAT, GISTS, LOGIN, SIGN_UP, HOME } from "../../constant";
 
-const exist = () => {
-  firebaseApp.auth().signOut();
+const signOut = () => {
+  return firebaseApp.auth().signOut();
 };
 
-export const Header = ({ session }) => {
-  const isAuth = !!session?.email;
+export function Header({ session }) {
   return (
     <div className={styles.header}>
-      {isAuth && (
+      <Link className={styles.headerProf} to={HOME}>
+        <ListItemText className={styles.text} primary="Домашная страница" />
+      </Link>
+      {!!session && (
         <>
-          <Link className={styles.headerProf} to={PROFILE}>
+        <Link className={styles.headerProf} to={PROFILE}>
             <ListItemIcon>
               <AccountCircle fontSize="large" className={styles.icon} />
             </ListItemIcon>
             <ListItemText className={styles.text} primary="Профиль" />
           </Link>
-
-          <Link className={styles.headerProf} to={HOME}>
-            <ListItemText className={styles.text} primary="Домашная страница" />
-          </Link>
-
           <Link className={styles.headerProf} to={CHAT}>
             <ListItemText className={styles.text} primary="Чат" />
           </Link>
-
           <Link className={styles.headerProf} to={GISTS}>
             <ListItemText className={styles.text} primary="Gists" />
           </Link>
         </>
       )}
-      {!isAuth && (
+
+      {!!session && <Button variant="outlined" onClick={signOut}>Выход</Button>}
+
+      {!session && (
         <>
           <Link className={styles.headerProf} to={LOGIN}>
-            <ListItemText className={styles.text} primary="login" />
+            <ListItemText className={styles.text} primary="Вход" />
           </Link>
 
           <Link className={styles.headerProf} to={SIGN_UP}>
-            <ListItemText className={styles.text} primary="sign-up" />
+            <ListItemText className={styles.text} primary="Регистрация" />
           </Link>
         </>
       )}
-      <>
-        <Button onClick={exist}>Выход</Button>
-        <h1 style={{ color: "#fff" }}>{session?.email ?? ""}</h1>
-      </>
     </div>
   );
-};
+}

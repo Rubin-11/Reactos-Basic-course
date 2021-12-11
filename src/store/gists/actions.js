@@ -2,14 +2,16 @@ import {
   GET_GISTS_START,
   GET_GISTS_SUCCESS,
   GET_GISTS_ERROR,
-  GET_GISTS_BY_NAME_START,
-  GET_GISTS_BY_NAME_SUCCESS,
-  GET_GISTS_BY_NAME_ERROR,
+  SEARCH_GISTS_ERROR,
+  SEARCH_GISTS_START,
+  SEARCH_GISTS_SUCCESS,
 } from "./constants";
 
-export const getGistsStart = () => ({ type: GET_GISTS_START });
+export const getGistsStart = () => ({
+  type: GET_GISTS_START,
+});
 
-export const getGistsSucess = (gists) => ({
+export const getGistsSuccess = (gists) => ({
   type: GET_GISTS_SUCCESS,
   payload: gists,
 });
@@ -19,14 +21,16 @@ export const getGistsError = (error) => ({
   payload: error,
 });
 
-export const getGistsByNameStart = () => ({ type: GET_GISTS_BY_NAME_START });
+export const searchGistsStart = () => ({
+  type: SEARCH_GISTS_START,
+});
 
-export const getGistsByNameSucess = (gists) => ({
-  type: GET_GISTS_BY_NAME_SUCCESS,
+export const searchGistsSuccess = (gists) => ({
+  type: SEARCH_GISTS_SUCCESS,
   payload: gists,
 });
 
-export const getGistsByNameError = (error) => ({
-  type: GET_GISTS_BY_NAME_ERROR,
+export const searchGistsError = (error) => ({
+  type: SEARCH_GISTS_ERROR,
   payload: error,
 });

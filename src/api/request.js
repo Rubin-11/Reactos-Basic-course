@@ -1,24 +1,30 @@
 import axios from "axios";
 
-const BASE_URL = "https://api.github.com";
-
 class Request {
-  constructor(token) {
-    this.token = token;
+  constructor(token = "") {
     this.request = axios.create({
-      baseURL: BASE_URL,
+      baseURL: "https://api.github.com",
     });
+    this.token = token;
   }
 
   setToken = (token) => {
     this.token = token;
+
+    return this;
+  };
+
+  getToken = () => {
+    return this.token;
   };
 
   removeToken = () => {
     this.token = null;
+
+    return this;
   };
 
-  requestWitToken = () => {
+  requestWithToken = () => {
     return {
       headers: {
         "x-token": this.token,
@@ -26,25 +32,25 @@ class Request {
     };
   };
 
-  get = (url, witAuth) => {
+  get = (url, withAuth) => {
     let config = {};
 
-    if (witAuth) {
-      config = { ...config, ...this.requestWitToken() };
+    if (withAuth) {
+      config = { ...config, ...this.requestWithToken() };
     }
 
     return this.request.get(url, config);
   };
 
-  post = (url, params, witAuth) => {
+  post = (url, params, withAuth) => {
     let config = {};
 
-    if (witAuth) {
-      config = { ...config, ...this.requestWitToken() };
+    if (withAuth) {
+      config = { ...config, ...this.requestWithToken() };
     }
 
     return this.request.post(url, params, config);
   };
 }
 
-export const request = new Request("token");
+export const request = new Request();

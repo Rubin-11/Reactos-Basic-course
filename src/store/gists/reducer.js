@@ -2,44 +2,57 @@ import {
   GET_GISTS_START,
   GET_GISTS_SUCCESS,
   GET_GISTS_ERROR,
-  GET_GISTS_BY_NAME_START,
-  GET_GISTS_BY_NAME_SUCCESS,
-  GET_GISTS_BY_NAME_ERROR,
+  SEARCH_GISTS_ERROR,
+  SEARCH_GISTS_START,
+  SEARCH_GISTS_SUCCESS,
 } from "./constants";
 
 const initialState = {
   gists: [],
-  gistError: null,
-  gistPending: false,
+  gistsLoading: false,
+  gistsError: null,
 
-  gistsByName: [],
-  gistByNameError: null,
-  gistByNamePending: false,
+  gistsSearch: [],
+  gistsLoadingSearch: false,
+  gistsErrorSearch: null,
 };
 
 export const gistsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_GISTS_START:
-      return { ...state, gistPending: true };
-    case GET_GISTS_SUCCESS:
-      return { ...state, gistPending: false, gists: action.payload };
-    case GET_GISTS_ERROR:
-      return { ...state, gistPending: false, gistError: action.payload };
+      return {
+        ...state,
+        gistsLoading: true,
+        gistsError: null,
+      };
 
-    case GET_GISTS_BY_NAME_START:
-      return { ...state, gistByNamePending: true };
-    case GET_GISTS_BY_NAME_SUCCESS:
+    case GET_GISTS_SUCCESS:
+      return { ...state, gistsLoading: false, gists: action.payload };
+
+    case GET_GISTS_ERROR:
+      return { ...state, gistsLoading: false, gistsError: action.payload };
+
+    case SEARCH_GISTS_START:
       return {
         ...state,
-        gistByNamePending: false,
-        gistsByName: action.payload,
+        gistsLoadingSearch: true,
+        gistsErrorSearch: null,
       };
-    case GET_GISTS_BY_NAME_ERROR:
+
+    case SEARCH_GISTS_SUCCESS:
       return {
         ...state,
-        gistByNamePending: false,
-        gistByNameError: action.payload,
+        gistsLoadingSearch: false,
+        gistsSearch: action.payload,
       };
+
+    case SEARCH_GISTS_ERROR:
+      return {
+        ...state,
+        gistsLoadingSearch: false,
+        gistsErrorSearch: action.payload,
+      };
+
     default:
       return state;
   }

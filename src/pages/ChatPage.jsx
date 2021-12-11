@@ -1,36 +1,56 @@
-import { useEffect } from "react";
-import { Route, Switch, useHistory } from "react-router-dom";
-import { MessageList, MainTemplate, ChatList } from "../components";
+import { useEffect, useContext } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Layout, ChatList, MessageList } from "../components";
+import { ThemaContext } from "../theme-context";
+import { getConversationsFB } from "../store/conversations";
+import { getMessagesFB } from "../store/messages";
 
-export function ChatPage() {
-  const { push } = useHistory();
+export const ChatPage = ({ session }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const {
+    theme: { theme },
+  } = useContext(ThemaContext);
 
   useEffect(() => {
-    const listenExistChat = ({ code }) => {
+    const listener = ({ code }) => {
       if (code === "Escape") {
-        push("/chat");
+        navigate("/chat");
       }
     };
 
-    document.addEventListener("keydown", listenExistChat);
+    document.addEventListener("keydown", listener);
 
-    return () => {
-      document.removeEventListener("keydown", listenExistChat);
-    };
-  }, [push]);
+    return () => document.removeEventListener("keydown", listener);
+  }, [navigate]);
+
+  useEffect(() => {
+    dispatch(getConversationsFB());
+    dispatch(getMessagesFB());
+  }, [dispatch]);
 
   return (
-    <Switch>
-      <Route path={["/chat/:roomId", "/chat"]}>
-        <MainTemplate chats={<ChatList />}>
-          <Route path="/chat/:roomId">
-            <MessageList />
-          </Route>
-          <Route exact={true} path="/chat">
-            <h1>Выберите диалог</h1>
-          </Route>
-        </MainTemplate>
-      </Route>
-    </Switch>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <Layout
+            chats={<ChatList />}
+            messages={<h1 style={{ color: theme.color }}>выберите чат ...</h1>}
+          />
+        }
+      />
+      <Route
+        path="/:roomId"
+        element={
+          <Layout
+            chats={<ChatList />}
+            messages={<MessageList session={session} />}
+          />
+        }
+      />
+    </Routes>
   );
-}
+};

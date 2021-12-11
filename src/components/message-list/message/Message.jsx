@@ -1,39 +1,23 @@
-import { format } from "date-fns";
-import { memo } from "react";
-import PropTypes from "prop-types";
+// import { format } from "date-fns";
 import classNames from "classnames";
-import { useSelector } from "react-redux";
+import { withCounter } from "../../../hocs/with-counter";
+import { deleteMessageById } from "../../../store/messages";
 import styles from "./message.module.css";
-import { sessionSelector } from "../../../store/session";
 
-
-
-export const Message = memo(({ message }) => {
-  const { author, value } = message;
-  const session = useSelector(sessionSelector);
-
-  return (
-    <div
-      className={classNames(styles.message, {
-        [styles.currentMessage]: author === session.email,
-      })}
-    >
-      <h3>{value}</h3>
-      <p>{author}</p>
-      <p>{format(new Date(), "yyyy-MM-dd")}</p>
-      <hr />
-    </div>
-  );
-});
-
-Message.propTypes = {
-  message: PropTypes.shape({
-    author: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-  }).isRequired,
-  test: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-    })
-  ),
-};
+export const Message = withCounter(
+  ({ message, increment, decrement, count, dispatch, roomId }) => {
+    return (
+      <div
+        className={classNames(styles.message, {
+          [styles.currentMessage]: message.author !== "Bot",
+        })}
+      >
+        <h3>{message.message}</h3>
+        <p>{message.author}</p>
+        <button onClick={() => dispatch(deleteMessageById(message.id, roomId))}>
+          X
+        </button>
+      </div>
+    );
+  }
+);

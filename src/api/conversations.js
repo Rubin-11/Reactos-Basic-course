@@ -2,8 +2,9 @@ import { db } from "./firebase";
 
 export const getConversationsApi = () => db.ref("conversations").get();
 
-export const updateConversationValueApi = (roomId, messageValue) =>
-  db
+export const addConversationApi = (roomId) => {
+  return db
     .ref("conversations")
     .child(roomId)
-    .update({ title: roomId, value: messageValue });
+    .set({ title: roomId, value: "" });
+};

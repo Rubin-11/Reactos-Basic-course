@@ -1,8 +1,7 @@
-export const GET_GISTS_START = "@gists/get gists list start";
-export const GET_GISTS_SUCCESS = "@gists/get gists list success";
-export const GET_GISTS_ERROR = "@gists/get gists list error";
+export const GET_GISTS_START = "@gists/start gists";
+export const GET_GISTS_SUCCESS = "@gists/success gists";
+export const GET_GISTS_ERROR = "@gists/error gists";
 
-export const GET_GISTS_BY_NAME_START = "@gists/get gists by name list start";
-export const GET_GISTS_BY_NAME_SUCCESS =
-  "@gists/get gists by name  list success";
-export const GET_GISTS_BY_NAME_ERROR = "@gists/get gists by name  list error";
+export const SEARCH_GISTS_START = "@gists/search start gists";
+export const SEARCH_GISTS_SUCCESS = "@gists/search success gists";
+export const SEARCH_GISTS_ERROR = "@gists/search error gists";
