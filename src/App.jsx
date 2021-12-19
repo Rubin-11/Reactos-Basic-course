@@ -1,17 +1,17 @@
 import React from "react";
 import "./App.css";
-import { Message } from "./component/Message";
+import { Message, MessageList, } from "./component";
 
 export function App({ name }) {
+ 
+
   return (
     <>
       <div className="App">
         <header className="App-header">
-          My First React App
-          <Message name={name} />
+          <MessageList />
         </header>
       </div>
-      <Message name={name} />
     </>
   );
 }
