@@ -1,10 +1,8 @@
 import React from "react";
 import "./App.css";
-import { Message, MessageList, } from "./component";
+import { MessageList } from "./component";
 
 export function App({ name }) {
- 
-
   return (
     <>
       <div className="App">

@@ -1,4 +1,13 @@
-export const Message = ({messageList}) => {
-
-  return(<h1>{messageList.map((message) => <p>{message.author}: {message.text}</p>)}</h1>);
-}; 
+export const Message = ({ messageList, deleteMessage}) => {
+  return (
+    <>
+      {messageList.map((message) => (
+        <div key={message.id}>
+          <p>
+            {message.author}: {message.text}
+          </p>
+        </div>
+      ))}
+    </>
+  );
+};
