@@ -1,14 +1,18 @@
 import React from "react";
 import "./App.css";
-import { MessageList } from "./component";
+import { MessageList, ChatsList, Header } from "./component";
 
 export function App({ name }) {
   return (
     <>
       <div className="App">
         <header className="App-header">
-          <MessageList />
+          <Header />
         </header>
+        <main className="App-main">
+          <ChatsList />
+          <MessageList />
+        </main>
       </div>
     </>
   );

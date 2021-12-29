@@ -2,6 +2,7 @@ import { nanoid } from "nanoid";
 import React, { useState, useEffect } from "react";
 import { Message } from "./Message";
 import "./MessageList.css";
+import { Input, Button } from "@mui/material";
 
 export const MessageList = (props) => {
   const [messageList, setMessageList] = useState([
@@ -45,14 +46,16 @@ export const MessageList = (props) => {
     <div className="MessageList">
       <Message className={"Message"} messageList={messageList} />
       <div>
-        <input
+        <Input
+          autoFocus={true}
           placeholder="Введите сообщение"
           type="text"
           value={value}
           onKeyPress={sendMessageButton}
           onChange={(event) => setValue(event.target.value)}
+          sx={{ color: "white" }}
         />
-        <button onClick={sendMessage}>Отправить</button>
+        <Button variant="contained" onClick={sendMessage}>Отправить</Button>
       </div>
     </div>
   );
