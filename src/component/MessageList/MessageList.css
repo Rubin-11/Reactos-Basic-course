@@ -1,0 +1,7 @@
+.MessageList {
+  display: grid;
+  gap: 10px;
+  align-content: center;
+  justify-items: center;
+  width: 100%;
+}

@@ -1,0 +1,21 @@
+header {
+  background-color: rgb(67, 67, 110);
+  font-size: calc(10px + 2vmin);
+  color: white;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+    justify-content: center;
+}
+ul {
+  display: flex;
+  justify-content: space-around;
+  
+}
+ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+ul li a:hover {
+  text-decoration: revert;
+}
