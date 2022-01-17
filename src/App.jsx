@@ -1,11 +1,13 @@
 import React from "react";
+import { Provider } from "react-redux";
 import "./App.css";
 import { Router } from "./Router";
+import { store } from "./store";
 
-export function App({ name }) {
+export function App() {
   return (
-    <>
-    <Router />
-    </>
+    <Provider store={store}>
+      <Router />
+    </Provider>
   );
 }
